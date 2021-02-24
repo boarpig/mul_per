@@ -27,16 +27,13 @@ int main(){
     int max_i = 0;
     long i = 11;
     while(steps < 11 || i < LONG_MAX) {
-        if (i % 2 == 1) {
-            steps = count_steps(i);
-            if (steps > max_steps) {
-                max_steps = steps;
-                max_i = i;
-                printf("New record: %d %d\n", max_i, max_steps);
-            }
+        steps = count_steps(i);
+        if (steps > max_steps) {
+            max_steps = steps;
+            max_i = i;
+            printf("%d %d\n", max_i, max_steps);
         }
         i++;
     }
-    printf("final record: %d %d\n", max_i, max_steps);
     return 0;
 }
