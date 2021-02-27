@@ -22,11 +22,10 @@ int count_steps(long n) {
 }
 
 int main(){
+    long i = 9;
+    long max_i = 0;
     int steps = 0;
     int max_steps = 0;
-    long max_i = 0;
-    long i = 38;
-    printf("10 1\n25 2\n");
     while(steps < 11 && i < LONG_MAX) {
         i++;
         steps = count_steps(i);
