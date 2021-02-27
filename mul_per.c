@@ -2,13 +2,13 @@
 #include<stdint.h>
 #include<stdio.h>
 
-int count_steps(int n) {
+int count_steps(long n) {
     char str[20];
     int product = 1;
     int i = 0;
     int steps = 0;
     while(n > 9) {
-        sprintf(str, "%d", n);
+        sprintf(str, "%ld", n);
         i = 0;
         product = 1;
         while(str[i] != 0) {
@@ -24,7 +24,7 @@ int count_steps(int n) {
 int main(){
     int steps = 0;
     int max_steps = 0;
-    int max_i = 0;
+    long max_i = 0;
     long i = 39;
     printf("11 1\n25 2\n");
     while(steps < 11 || i < LONG_MAX) {
@@ -32,7 +32,7 @@ int main(){
         if (steps > max_steps) {
             max_steps = steps;
             max_i = i;
-            printf("%d %d\n", max_i, max_steps);
+            printf("%ld %d\n", max_i, max_steps);
         }
         i++;
     }
