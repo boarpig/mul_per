@@ -25,16 +25,16 @@ int main(){
     int steps = 0;
     int max_steps = 0;
     long max_i = 0;
-    long i = 39;
+    long i = 38;
     printf("11 1\n25 2\n");
     while(steps < 11 && i < LONG_MAX) {
+        i++;
         steps = count_steps(i);
         if (steps > max_steps) {
             max_steps = steps;
             max_i = i;
             printf("%ld %d\n", max_i, max_steps);
         }
-        i++;
     }
     return 0;
 }
