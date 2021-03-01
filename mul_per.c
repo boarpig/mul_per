@@ -3,10 +3,10 @@
 #include<stdio.h>
 #include<unistd.h>
 #include<sys/sysinfo.h>
-#include<pthread.h>
+#include<threads.h>
 
 int count_steps(long n);
-void *test_loop(void *arguments);
+int test_loop(void *arguments);
 
 struct arg_struct {
     int skip;
@@ -15,19 +15,20 @@ struct arg_struct {
 };
 
 int num_threads;
-pthread_mutex_t thread_num_mutex = PTHREAD_MUTEX_INITIALIZER;
+mtx_t thread_num_mutex;
 
 int main(){
     int procs = get_nprocs();
-    pthread_t threads[procs];
+    thrd_t threads[procs];
     num_threads = procs;
+    mtx_init(&thread_num_mutex, mtx_plain);
     struct arg_struct args[procs];
     struct arg_struct *args_p = args;
     printf("Starting %d threads.\n", procs);
     for(int t = 0; t < procs; t++) {
         args[t].skip = procs;
         args[t].offset = t;
-        pthread_create(&threads[t], NULL, &test_loop, (void *)&args_p[t]);
+        thrd_create(&threads[t], test_loop, (void *)&args_p[t]);
     }
     while(num_threads > 0){
         sleep(1);
@@ -45,7 +46,7 @@ int main(){
     return 0;
 }
 
-void *test_loop(void *arguments) {
+int test_loop(void *arguments) {
     struct arg_struct *args = (struct arg_struct *)arguments;
     long i = 9 + args->offset - args->skip;
     int max_steps = 0;
@@ -61,10 +62,10 @@ void *test_loop(void *arguments) {
             args->max_i[steps] = i;
         }
     }
-    pthread_mutex_lock(&thread_num_mutex);
+    mtx_lock(&thread_num_mutex);
     num_threads -= 1;
-    pthread_mutex_unlock(&thread_num_mutex);
-    return NULL;
+    mtx_unlock(&thread_num_mutex);
+    return 0;
 }
 
 int count_steps(long n) {
