@@ -4,6 +4,7 @@
 #include<unistd.h>
 #include<sys/sysinfo.h>
 #include<threads.h>
+#include<stdatomic.h>
 
 int count_steps(long n);
 int test_loop(void *arguments);
@@ -14,14 +15,12 @@ struct arg_struct {
     long max_i[11];
 };
 
-int num_threads;
-mtx_t thread_num_mutex;
+atomic_int num_threads;
 
 int main(){
     int procs = get_nprocs();
     thrd_t threads[procs];
     num_threads = procs;
-    mtx_init(&thread_num_mutex, mtx_plain);
     struct arg_struct args[procs];
     struct arg_struct *args_p = args;
     printf("Starting %d threads.\n", procs);
@@ -62,9 +61,7 @@ int test_loop(void *arguments) {
             args->max_i[steps] = i;
         }
     }
-    mtx_lock(&thread_num_mutex);
     num_threads -= 1;
-    mtx_unlock(&thread_num_mutex);
     return 0;
 }
 
