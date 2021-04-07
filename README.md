@@ -1,5 +1,9 @@
 # Calculating multiplicative persistence
 
+This is just for fun exploration based on [Numberphile video](https://www.youtube.com/watch?v=Wim9WJeDTHQ). In the end there is not much to do since 11 steps is all you're going to get ever on current home computers. This code is just code analogy of doodles on a notebook
+
+## Some theory.
+
 Following is a direct quote from Wikipedia:
 
 For a radix of 10, there is thought to be no number with a multiplicative persistence > 11: this is known to be true for numbers up to 10^20000.
